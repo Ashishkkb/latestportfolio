@@ -1,21 +1,14 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { templates, MarketplaceItem , components} from "../../data/templatesData";
-
-
-
+import { useState } from "react"
+import { motion } from "framer-motion"
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
+import { templates, type MarketplaceItem, components } from "../../latestportfolio-main/data/templatesData"
 
 export default function Marketplace(): JSX.Element {
-  const [activeTab, setActiveTab] = useState<"components" | "templates">(
-    "components"
-  );
-  const [selectedItem, setSelectedItem] = useState<MarketplaceItem | null>(
-    null
-  );
+  const [activeTab, setActiveTab] = useState<"components" | "templates">("components")
+  const [selectedItem, setSelectedItem] = useState<MarketplaceItem | null>(null)
 
   return (
     <motion.main
@@ -36,17 +29,13 @@ export default function Marketplace(): JSX.Element {
 
         <div className="flex justify-center mb-8 space-x-2">
           <button
-            className={`px-4 py-2 rounded-l-lg ${
-              activeTab === "components" ? "bg-blue-500" : "bg-gray-700"
-            }`}
+            className={`px-4 py-2 rounded-l-lg ${activeTab === "components" ? "bg-blue-500" : "bg-gray-700"}`}
             onClick={() => setActiveTab("components")}
           >
             Components
           </button>
           <button
-            className={`px-4 py-2 rounded-r-lg ${
-              activeTab === "templates" ? "bg-blue-500" : "bg-gray-700"
-            }`}
+            className={`px-4 py-2 rounded-r-lg ${activeTab === "templates" ? "bg-blue-500" : "bg-gray-700"}`}
             onClick={() => setActiveTab("templates")}
           >
             Templates
@@ -107,10 +96,7 @@ export default function Marketplace(): JSX.Element {
           >
             <div className="p-4 border-b border-gray-700 flex justify-between items-center">
               <h3 className="text-xl font-bold">{selectedItem.name} Code</h3>
-              <button
-                className="text-gray-400 hover:text-white"
-                onClick={() => setSelectedItem(null)}
-              >
+              <button className="text-gray-400 hover:text-white" onClick={() => setSelectedItem(null)}>
                 Close
               </button>
             </div>
@@ -123,5 +109,6 @@ export default function Marketplace(): JSX.Element {
         </motion.div>
       )}
     </motion.main>
-  );
+  )
 }
+

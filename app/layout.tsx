@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata = {
   title: "Ashish Ku behera - Portfolio & Marketplace",
   description: "Creative Developer, AI Enthusiast, and Marketplace for Components and Templates",
-    generator: 'v0.dev'
+  generator: "v0.dev",
 }
 
 export default function RootLayout({
@@ -26,6 +26,5 @@ export default function RootLayout({
   )
 }
 
+import "./globals.css"
 
-
-import './globals.css'
