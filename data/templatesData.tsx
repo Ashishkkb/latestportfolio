@@ -667,45 +667,6 @@ export const components: MarketplaceItem[] = [
       `,
   },
   {
-    name: "Interactive Calendar",
-    price: "$15.99",
-    link: "/components/interactive-calendar",
-    demo: () => (
-      <div className="w-full h-40 bg-gray-800 rounded-lg p-4">
-        <div className="grid grid-cols-7 gap-1 text-center">
-          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-            <div key={day} className="text-sm font-bold text-gray-300">
-              {day}
-            </div>
-          ))}
-          {[...Array(28)].map((_, i) => (
-            <div key={i} className="p-2 bg-gray-700 rounded">
-              {i + 1}
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-    code: `
-  function InteractiveCalendar() {
-    return (
-      <div className="grid grid-cols-7 gap-1 text-center">
-        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-          <div key={day} className="text-sm font-bold text-gray-300">
-            {day}
-          </div>
-        ))}
-        {[...Array(28)].map((_, i) => (
-          <div key={i} className="p-2 bg-gray-700 rounded">
-            {i + 1}
-          </div>
-        ))}
-      </div>
-    )
-  }
-      `,
-  },
-  {
     name: "Chat Bubble Component",
     price: "Free",
     link: "/components/chat-bubble",
@@ -1615,43 +1576,6 @@ export const components: MarketplaceItem[] = [
         <div className="flex flex-col items-center">
           <div className="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center">3</div>
           <span className="mt-2 text-sm">Step 3</span>
-        </div>
-      </div>
-    );
-  }
-      `,
-  },
-  {
-    name: "Calendar",
-    price: "Free",
-    link: "/components/calendar",
-    demo: () => (
-      <div className="w-full max-w-md mx-auto p-4 border rounded">
-        <div className="grid grid-cols-7 text-center">
-          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-            <div key={day} className="font-bold">
-              {day}
-            </div>
-          ))}
-          {[...Array(30)].map((_, i) => (
-            <div key={i} className="p-2">
-              {i + 1}
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-    code: `
-  function Calendar() {
-    return (
-      <div className="w-full max-w-md mx-auto p-4 border rounded">
-        <div className="grid grid-cols-7 text-center">
-          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-            <div key={day} className="font-bold">{day}</div>
-          ))}
-          {[...Array(30)].map((_, i) => (
-            <div key={i} className="p-2">{i + 1}</div>
-          ))}
         </div>
       </div>
     );

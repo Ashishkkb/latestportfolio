@@ -19,7 +19,7 @@ export default function Home() {
           transition={{ delay: 0.2 }}
           className="text-6xl font-bold mb-8"
         >
-          Ashish Kumar ehera
+          Ashish Kumar Behera
         </motion.h1>
         <motion.p
           initial={{ y: 20, opacity: 0 }}
