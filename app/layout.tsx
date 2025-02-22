@@ -19,12 +19,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Nav />
-        {children}
+      <UserProvider>
+          <Nav />
+          <main className="container mx-auto mt-8">{children}</main>
+          <Toaster />
+        </UserProvider>
       </body>
     </html>
   )
 }
 
 import "./globals.css"
+import { UserProvider } from "@/components/UserProvider"
+import { Toaster } from "@/components/ui/sonner"
 

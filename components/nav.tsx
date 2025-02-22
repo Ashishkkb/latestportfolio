@@ -3,6 +3,8 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
+import { Button } from "./ui/button"
+import { useUser } from "./UserProvider"
 
 const links = [
   { href: "/home", label: "Home" },
@@ -13,6 +15,11 @@ const links = [
 
 export function Nav() {
   const pathname = usePathname()
+  const { user, loading } = useUser()
+
+  if (loading) {
+    return null // Or a loading spinner
+  }
 
   return (
     <nav className="fixed top-0 left-0 w-full z-40 bg-[#020410]/80 backdrop-blur-md">
@@ -35,6 +42,24 @@ export function Nav() {
             </li>
           ))}
         </ul>
+      </div>
+      <div className="container mx-auto flex justify-between items-center">
+        <Link href="/" className="text-xl font-bold">
+          UI Marketplace
+        </Link>
+        <div className="space-x-4">
+          <Link href="/marketplace">Marketplace</Link>
+          {user ? (
+            <>
+              <Link href="/dashboard">Dashboard</Link>
+              <Link href="/upload">Upload</Link>
+            </>
+          ) : (
+            <Link href="/auth">
+              <Button variant="secondary">Login / Sign Up</Button>
+            </Link>
+          )}
+        </div>
       </div>
     </nav>
   )

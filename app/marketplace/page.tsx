@@ -1,14 +1,81 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
-import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
-import { templates, type MarketplaceItem, components } from "../../data/templatesData"
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import {
+  templates,
+  type MarketplaceItem,
+  components,
+} from "../../data/templatesData";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import { useUser } from "@/components/UserProvider";
+import { supabase } from "@/lib/supabase";
+import { Button } from "@/components/ui/button";
+
+interface UIUpload {
+  id: number;
+  title: string;
+  views: number;
+  is_paid: boolean;
+  price: number | null;
+  user_id: string;
+}
 
 export default function Marketplace(): JSX.Element {
-  const [activeTab, setActiveTab] = useState<"components" | "templates">("components")
-  const [selectedItem, setSelectedItem] = useState<MarketplaceItem | null>(null)
+  const [activeTab, setActiveTab] = useState<"components" | "templates">(
+    "components"
+  );
+  const [selectedItem, setSelectedItem] = useState<MarketplaceItem | null>(
+    null
+  );
+  const { user, loading } = useUser();
+  const router = useRouter();
+  const [uiUploads, setUiUploads] = useState<UIUpload[]>([]);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    fetchUiUploads();
+  }, []);
+
+  const fetchUiUploads = async () => {
+    const { data, error } = await supabase.from("ui_uploads").select("*");
+
+    if (error) {
+      console.error("Error fetching UI uploads:", error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch UI uploads",
+        variant: "destructive",
+      });
+    } else {
+      setUiUploads(data);
+    }
+  };
+
+  const handleView = async (uiId: number) => {
+    // Increment view count
+    const { error } = await supabase.rpc("increment_views", { ui_id: uiId });
+    if (error) {
+      console.error("Error incrementing views:", error);
+    } else {
+      // Refresh UI uploads
+      fetchUiUploads();
+    }
+  };
+
+  const handlePurchase = async (uiId: number) => {
+    // Here you would implement your payment logic
+    // For now, we'll just simulate a successful purchase
+    toast({
+      title: "Success",
+      description: "UI purchased successfully!",
+    });
+  };
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <motion.main
@@ -17,6 +84,23 @@ export default function Marketplace(): JSX.Element {
       exit={{ opacity: 0 }}
       className="min-h-screen bg-gradient-to-b from-[#020410] to-[#090b1f] text-white pt-32"
     >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {uiUploads.map((ui) => (
+          <div key={ui.id} className="border p-4 rounded-lg">
+            <h2 className="text-xl font-semibold">{ui.title}</h2>
+            <p>Views: {ui.views}</p>
+            <p>{ui.is_paid ? `Price: $${ui.price}` : "Free"}</p>
+            <div className="mt-2">
+              <Button onClick={() => handleView(ui.id)} className="mr-2">
+                View
+              </Button>
+              {ui.is_paid && ui.user_id !== user?.id && (
+                <Button onClick={() => handlePurchase(ui.id)}>Purchase</Button>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
       <div className="container mx-auto px-4">
         <motion.h1
           initial={{ y: 20, opacity: 0 }}
@@ -29,13 +113,17 @@ export default function Marketplace(): JSX.Element {
 
         <div className="flex justify-center mb-8 space-x-2">
           <button
-            className={`px-4 py-2 rounded-l-lg ${activeTab === "components" ? "bg-blue-500" : "bg-gray-700"}`}
+            className={`px-4 py-2 rounded-l-lg ${
+              activeTab === "components" ? "bg-blue-500" : "bg-gray-700"
+            }`}
             onClick={() => setActiveTab("components")}
           >
             Components
           </button>
           <button
-            className={`px-4 py-2 rounded-r-lg ${activeTab === "templates" ? "bg-blue-500" : "bg-gray-700"}`}
+            className={`px-4 py-2 rounded-r-lg ${
+              activeTab === "templates" ? "bg-blue-500" : "bg-gray-700"
+            }`}
             onClick={() => setActiveTab("templates")}
           >
             Templates
@@ -96,7 +184,10 @@ export default function Marketplace(): JSX.Element {
           >
             <div className="p-4 border-b border-gray-700 flex justify-between items-center">
               <h3 className="text-xl font-bold">{selectedItem.name} Code</h3>
-              <button className="text-gray-400 hover:text-white" onClick={() => setSelectedItem(null)}>
+              <button
+                className="text-gray-400 hover:text-white"
+                onClick={() => setSelectedItem(null)}
+              >
                 Close
               </button>
             </div>
@@ -109,6 +200,5 @@ export default function Marketplace(): JSX.Element {
         </motion.div>
       )}
     </motion.main>
-  )
+  );
 }
-
