@@ -4,7 +4,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
-import { templates, type MarketplaceItem, components } from "../../latestportfolio-main/data/templatesData"
+import { templates, type MarketplaceItem, components } from "../../data/templatesData"
 
 export default function Marketplace(): JSX.Element {
   const [activeTab, setActiveTab] = useState<"components" | "templates">("components")
